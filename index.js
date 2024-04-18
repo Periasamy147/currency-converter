@@ -1,15 +1,19 @@
-var currencyForm = document.getElementById('currencyForm');
-var amountInput = document.getElementById('amount');
-var fromCurrencySelect = document.getElementById('fromCurrency');
-var toCurrencySelect = document.getElementById('toCurrency');
-var resultDiv = document.getElementById('result');
-if (currencyForm && amountInput && fromCurrencySelect && toCurrencySelect && resultDiv) {
-    currencyForm.addEventListener('submit', function (event) {
+var form = document.getElementById('currencyForm');
+if (form) {
+    form.addEventListener('submit', function (event) {
         event.preventDefault(); // Prevent form submission
         // Get values from form
-        var amount = parseFloat(amountInput.value);
-        var fromCurrency = fromCurrencySelect.value;
-        var toCurrency = toCurrencySelect.value;
+        var amountInput = document.getElementById('amount');
+        var amount = parseFloat(amountInput.value || '0');
+        var fromCurrencySelect = document.getElementById('fromCurrency');
+        var fromCurrency = fromCurrencySelect.value || '';
+        var toCurrencySelect = document.getElementById('toCurrency');
+        var toCurrency = toCurrencySelect.value || '';
+        // Make sure required elements are found
+        if (!amount || !fromCurrency || !toCurrency) {
+            console.error('Required elements not found.');
+            return;
+        }
         // Make API request for conversion rates
         fetch('https://api.exchangerate-api.com/v4/latest/' + fromCurrency)
             .then(function (response) { return response.json(); })
@@ -19,14 +23,17 @@ if (currencyForm && amountInput && fromCurrencySelect && toCurrencySelect && res
             // Perform conversion
             var convertedAmount = amount * conversionRates[toCurrency];
             // Display result
-            resultDiv.innerText = amount + ' ' + fromCurrency + ' = ' + convertedAmount + ' ' + toCurrency;
+            var resultElement = document.getElementById('result');
+            if (resultElement) {
+                resultElement.innerText = amount + ' ' + fromCurrency + ' = ' + convertedAmount + ' ' + toCurrency;
+            }
         })
             .catch(function (error) {
             console.error('Error fetching conversion rates:', error);
-            resultDiv.innerText = 'Error fetching conversion rates. Please try again later.';
+            var resultElement = document.getElementById('result');
+            if (resultElement) {
+                resultElement.innerText = 'Error fetching conversion rates. Please try again later.';
+            }
         });
     });
-}
-else {
-    console.error('One or more required elements not found.');
 }
