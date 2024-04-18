@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <title>Currency Converter</title>
+</head>
+<body>
+    <form id="currencyForm">
+        <label for="amount">Enter the Amount:</label>
+        <input type="number" id="amount" name="amount">
+        <select id="fromCurrency">
+            <option value="INR">Rupee</option>
+            <option value="JPY">Yen</option>
+            <option value="USD">Dollar</option>
+            <option value="CNY">Yuan</option>
+            <option value="EUR">Euro</option>
+        </select>
+        <label for="to">to</label>
+        <select id="toCurrency">
+            <option value="INR">Rupee</option>
+            <option value="JPY">Yen</option>
+            <option value="USD">Dollar</option>
+            <option value="CNY">Yuan</option>
+            <option value="EUR">Euro</option>
+        </select>
+        <button type="submit">Convert</button>
+    </form>
+    <div id="result"></div>
+    <script src="index.js"></script>
+</body>
+</html>
